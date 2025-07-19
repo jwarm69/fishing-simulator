@@ -99,9 +99,11 @@
         
         .fish-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
             margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
         }
         
         .fish-slot {
@@ -170,10 +172,7 @@
             <div class="collection">
                 <h3>🐟 Collection</h3>
                 <div class="fish-grid" id="fishGrid">
-                    <div class="fish-slot">🎣</div>
-                    <div class="fish-slot">?</div>
-                    <div class="fish-slot">?</div>
-                    <div class="fish-slot">?</div>
+                    <!-- Fish collection will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -218,9 +217,20 @@
                 colors: ['#87CEEB', '#20B2AA', '#008B8B', '#FF6B6B'],
                 fish: [
                     { emoji: '🐠', name: 'Clownfish', rarity: 'common', points: 10 },
-                    { emoji: '🐟', name: 'Angelfish', rarity: 'uncommon', points: 25 },
+                    { emoji: '🐟', name: 'Tropical Fish', rarity: 'common', points: 12 },
+                    { emoji: '🟡', name: 'Yellow Tang', rarity: 'common', points: 8 },
+                    { emoji: '🔵', name: 'Blue Fish', rarity: 'common', points: 9 },
+                    { emoji: '🐡', name: 'Pufferfish', rarity: 'uncommon', points: 25 },
+                    { emoji: '🦈', name: 'Reef Shark', rarity: 'uncommon', points: 30 },
+                    { emoji: '🐙', name: 'Octopus', rarity: 'uncommon', points: 28 },
+                    { emoji: '🦀', name: 'Crab', rarity: 'uncommon', points: 22 },
                     { emoji: '🐢', name: 'Sea Turtle', rarity: 'rare', points: 100 },
-                    { emoji: '🐬', name: 'Dolphin', rarity: 'legendary', points: 500 }
+                    { emoji: '🦞', name: 'Lobster', rarity: 'rare', points: 85 },
+                    { emoji: '🐋', name: 'Baby Whale', rarity: 'rare', points: 120 },
+                    { emoji: '🦑', name: 'Squid', rarity: 'rare', points: 90 },
+                    { emoji: '🐬', name: 'Dolphin', rarity: 'legendary', points: 500 },
+                    { emoji: '🌟', name: 'Starfish Spirit', rarity: 'legendary', points: 600 },
+                    { emoji: '👑', name: 'King of the Reef', rarity: 'legendary', points: 750 }
                 ]
             },
             arctic: {
@@ -228,9 +238,20 @@
                 colors: ['#E6F3FF', '#B8E6FF', '#7DD3FC', '#0EA5E9'],
                 fish: [
                     { emoji: '🐟', name: 'Arctic Char', rarity: 'common', points: 15 },
+                    { emoji: '❄️', name: 'Ice Fish', rarity: 'common', points: 12 },
+                    { emoji: '🔷', name: 'Frost Minnow', rarity: 'common', points: 10 },
+                    { emoji: '⚪', name: 'Snow Bass', rarity: 'common', points: 14 },
                     { emoji: '🐠', name: 'Ice Salmon', rarity: 'uncommon', points: 35 },
+                    { emoji: '🐡', name: 'Frozen Puffer', rarity: 'uncommon', points: 32 },
+                    { emoji: '🦈', name: 'Ice Shark', rarity: 'uncommon', points: 40 },
+                    { emoji: '🐙', name: 'Arctic Octopus', rarity: 'uncommon', points: 38 },
                     { emoji: '🦭', name: 'Seal', rarity: 'rare', points: 150 },
-                    { emoji: '🦄', name: 'Narwhal', rarity: 'legendary', points: 750 }
+                    { emoji: '🐧', name: 'Penguin', rarity: 'rare', points: 120 },
+                    { emoji: '🐻', name: 'Polar Bear', rarity: 'rare', points: 180 },
+                    { emoji: '🦣', name: 'Mammoth Spirit', rarity: 'rare', points: 160 },
+                    { emoji: '🦄', name: 'Narwhal', rarity: 'legendary', points: 750 },
+                    { emoji: '❄️', name: 'Ice Dragon', rarity: 'legendary', points: 900 },
+                    { emoji: '🌨️', name: 'Blizzard Beast', rarity: 'legendary', points: 1100 }
                 ]
             },
             space: {
@@ -238,9 +259,20 @@
                 colors: ['#0F0F23', '#1a1a2e', '#16213e', '#0f3460'],
                 fish: [
                     { emoji: '✨', name: 'Nebula Guppy', rarity: 'common', points: 20 },
+                    { emoji: '🌟', name: 'Star Minnow', rarity: 'common', points: 18 },
+                    { emoji: '💫', name: 'Comet Fish', rarity: 'common', points: 22 },
+                    { emoji: '🔮', name: 'Crystal Swimmer', rarity: 'common', points: 16 },
                     { emoji: '⭐', name: 'Cosmic Goldfish', rarity: 'uncommon', points: 45 },
+                    { emoji: '🌙', name: 'Moon Bass', rarity: 'uncommon', points: 42 },
+                    { emoji: '☄️', name: 'Meteor Eel', rarity: 'uncommon', points: 48 },
+                    { emoji: '🌈', name: 'Aurora Fish', rarity: 'uncommon', points: 50 },
                     { emoji: '🛸', name: 'Void Manta', rarity: 'rare', points: 200 },
-                    { emoji: '🌌', name: 'Galaxy Whale', rarity: 'legendary', points: 1000 }
+                    { emoji: '👽', name: 'Alien Being', rarity: 'rare', points: 220 },
+                    { emoji: '🌍', name: 'Planet Eater', rarity: 'rare', points: 180 },
+                    { emoji: '🚀', name: 'Rocket Fish', rarity: 'rare', points: 190 },
+                    { emoji: '🌌', name: 'Galaxy Whale', rarity: 'legendary', points: 1000 },
+                    { emoji: '🌠', name: 'Shooting Star', rarity: 'legendary', points: 1200 },
+                    { emoji: '🌑', name: 'Black Hole Entity', rarity: 'legendary', points: 1500 }
                 ]
             },
             forest: {
@@ -248,9 +280,20 @@
                 colors: ['#228B22', '#32CD32', '#006400', '#2F4F2F'],
                 fish: [
                     { emoji: '🧚', name: 'Fairy Tetra', rarity: 'common', points: 18 },
-                    { emoji: '🍃', name: 'Moss Bass', rarity: 'uncommon', points: 42 },
-                    { emoji: '🐉', name: 'Forest Dragon', rarity: 'rare', points: 250 },
-                    { emoji: '🔥', name: 'Phoenix Fish', rarity: 'legendary', points: 1200 }
+                    { emoji: '🍃', name: 'Moss Bass', rarity: 'common', points: 16 },
+                    { emoji: '🌱', name: 'Sprout Fish', rarity: 'common', points: 14 },
+                    { emoji: '🟢', name: 'Forest Minnow', rarity: 'common', points: 15 },
+                    { emoji: '🐛', name: 'Caterpillar Fish', rarity: 'uncommon', points: 35 },
+                    { emoji: '🦋', name: 'Butterfly Fish', rarity: 'uncommon', points: 40 },
+                    { emoji: '🐝', name: 'Bee Fish', rarity: 'uncommon', points: 38 },
+                    { emoji: '🌸', name: 'Blossom Swimmer', rarity: 'uncommon', points: 42 },
+                    { emoji: '🦌', name: 'Forest Deer', rarity: 'rare', points: 200 },
+                    { emoji: '🌳', name: 'Tree Spirit', rarity: 'rare', points: 180 },
+                    { emoji: '🍄', name: 'Mushroom Guardian', rarity: 'rare', points: 160 },
+                    { emoji: '🐻', name: 'Forest Bear', rarity: 'rare', points: 220 },
+                    { emoji: '🐉', name: 'Forest Dragon', rarity: 'legendary', points: 1200 },
+                    { emoji: '🔥', name: 'Phoenix Fish', rarity: 'legendary', points: 1400 },
+                    { emoji: '🌟', name: 'Nature\'s Heart', rarity: 'legendary', points: 1600 }
                 ]
             },
             ocean: {
@@ -258,9 +301,20 @@
                 colors: ['#191970', '#000080', '#00008B', '#000000'],
                 fish: [
                     { emoji: '💡', name: 'Lanternfish', rarity: 'common', points: 22 },
+                    { emoji: '🔵', name: 'Deep Blue', rarity: 'common', points: 20 },
+                    { emoji: '⚫', name: 'Void Fish', rarity: 'common', points: 24 },
+                    { emoji: '🌊', name: 'Wave Rider', rarity: 'common', points: 18 },
                     { emoji: '🐍', name: 'Viper Fish', rarity: 'uncommon', points: 48 },
+                    { emoji: '🦈', name: 'Deep Shark', rarity: 'uncommon', points: 55 },
+                    { emoji: '⚡', name: 'Electric Eel', rarity: 'uncommon', points: 50 },
+                    { emoji: '🌀', name: 'Whirlpool Fish', rarity: 'uncommon', points: 45 },
                     { emoji: '🦑', name: 'Giant Squid', rarity: 'rare', points: 300 },
-                    { emoji: '🐙', name: 'Leviathan', rarity: 'legendary', points: 2000 }
+                    { emoji: '🐋', name: 'Deep Whale', rarity: 'rare', points: 280 },
+                    { emoji: '🦣', name: 'Ancient Beast', rarity: 'rare', points: 320 },
+                    { emoji: '⚓', name: 'Sunken Treasure', rarity: 'rare', points: 250 },
+                    { emoji: '🐙', name: 'Leviathan', rarity: 'legendary', points: 2000 },
+                    { emoji: '🌑', name: 'Abyssal Terror', rarity: 'legendary', points: 2200 },
+                    { emoji: '👹', name: 'Kraken', rarity: 'legendary', points: 2500 }
                 ]
             }
         };
@@ -282,7 +336,7 @@
         
         // Spawn fish
         function spawnFish() {
-            if (Math.random() < 0.03) {
+            if (Math.random() < 0.05) {
                 const fishType = getRandomFish();
                 fish.push({
                     x: Math.random() > 0.5 ? -50 : canvas.width + 50,
@@ -418,14 +472,26 @@
             grid.innerHTML = '';
             
             const allEmojis = Array.from(collection);
-            for (let i = 0; i < 8; i++) {
+            const totalSlots = Math.max(24, allEmojis.length + 6); // Show at least 24 slots
+            
+            for (let i = 0; i < totalSlots; i++) {
                 const slot = document.createElement('div');
                 slot.className = 'fish-slot';
                 if (allEmojis[i]) {
                     slot.className += ' filled';
                     slot.textContent = allEmojis[i];
+                    
+                    // Find fish name for tooltip
+                    let fishName = 'Unknown Fish';
+                    Object.values(realms).forEach(realm => {
+                        const fish = realm.fishTypes ? realm.fishTypes.find(f => f.emoji === allEmojis[i]) : 
+                                     realm.fish.find(f => f.emoji === allEmojis[i]);
+                        if (fish) fishName = fish.name;
+                    });
+                    slot.title = fishName;
                 } else {
                     slot.textContent = '?';
+                    slot.title = 'Undiscovered';
                 }
                 grid.appendChild(slot);
             }
