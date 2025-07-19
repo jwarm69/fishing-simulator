@@ -3,141 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Endless Waters - Ultimate Fishing Simulator</title>
-    <meta name="description" content="The ultimate browser fishing simulator with 5 mystical realms. Simple, beautiful, infinite.">
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>🎣 Endless Waters - Working Version</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .realms {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .realm-btn {
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .realm-btn:hover, .realm-btn.active {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .game-area {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .canvas-container {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+        }
+        
+        #gameCanvas {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+            cursor: crosshair;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+        }
+        
+        .stats {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .collection {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .fish-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .fish-slot {
+            background: rgba(255,255,255,0.1);
+            border: 2px dashed rgba(255,255,255,0.3);
+            border-radius: 8px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .fish-slot.filled {
+            border-style: solid;
+            border-color: #FFD700;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .instructions {
+            text-align: center;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .header h1 { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="game-header">
-        <h1 class="game-title">🎣 Endless Waters</h1>
-        <p class="game-subtitle">Cast your line across infinite realms</p>
-    </header>
-
-    <!-- Realm Selector -->
-    <nav class="realm-selector">
-        <button class="realm-btn active" data-realm="tropical">
-            <span class="realm-icon">🌴</span>
-            <span class="realm-name">Tropical Paradise</span>
-        </button>
-        <button class="realm-btn" data-realm="arctic">
-            <span class="realm-icon">❄️</span>
-            <span class="realm-name">Arctic Wilderness</span>
-        </button>
-        <button class="realm-btn" data-realm="space">
-            <span class="realm-icon">🚀</span>
-            <span class="realm-name">Space Station</span>
-        </button>
-        <button class="realm-btn" data-realm="forest">
-            <span class="realm-icon">🧚</span>
-            <span class="realm-name">Mystical Forest</span>
-        </button>
-        <button class="realm-btn" data-realm="ocean">
-            <span class="realm-icon">🌊</span>
-            <span class="realm-name">Deep Ocean</span>
-        </button>
-    </nav>
-
-    <!-- Main Game Area -->
-    <main class="game-main">
-        <!-- Game Canvas Container -->
-        <div class="game-container">
-            <canvas id="game-canvas" width="1000" height="600"></canvas>
+    <div class="header">
+        <h1>🎣 Endless Waters</h1>
+        <p>Cast your line across infinite realms</p>
+    </div>
+    
+    <div class="realms">
+        <button class="realm-btn active" data-realm="tropical">🌴 Tropical</button>
+        <button class="realm-btn" data-realm="arctic">❄️ Arctic</button>
+        <button class="realm-btn" data-realm="space">🚀 Space</button>
+        <button class="realm-btn" data-realm="forest">🧚 Forest</button>
+        <button class="realm-btn" data-realm="ocean">🌊 Ocean</button>
+    </div>
+    
+    <div class="game-area">
+        <div class="canvas-container">
+            <canvas id="gameCanvas" width="800" height="400"></canvas>
+            <div class="instructions">
+                <p><strong>Click and hold</strong> to build power, <strong>release</strong> to cast!</p>
+                <p>Use <strong>A/D</strong> or <strong>Arrow Keys</strong> to move</p>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="stats">
+                <h3>📊 Stats</h3>
+                <p>Current Realm: <span id="currentRealm">🌴 Tropical Paradise</span></p>
+                <p>Fish Caught: <span id="fishCount">0</span></p>
+                <p>Rare Catches: <span id="rareCount">0</span></p>
+            </div>
             
-            <!-- Game Overlay UI -->
-            <div class="game-overlay">
-                <div class="hud-top">
-                    <div class="current-realm">
-                        <span id="current-realm-name">Tropical Paradise</span>
-                        <span id="current-realm-icon">🌴</span>
-                    </div>
-                    <div class="game-stats">
-                        <div class="stat">
-                            <span class="stat-label">Fish Caught</span>
-                            <span class="stat-value" id="fish-count">0</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Rare Catches</span>
-                            <span class="stat-value" id="rare-count">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Casting Power Indicator -->
-                <div class="casting-ui" id="casting-ui" style="display: none;">
-                    <div class="power-meter">
-                        <div class="power-bar" id="power-bar"></div>
-                    </div>
-                    <p class="casting-instruction">Hold to build power, release to cast!</p>
-                </div>
-
-                <!-- Fish Bite Indicator -->
-                <div class="bite-indicator" id="bite-indicator" style="display: none;">
-                    <div class="bite-animation">🎣</div>
-                    <p class="bite-text">Fish on the line! Click to hook!</p>
+            <div class="collection">
+                <h3>🐟 Collection</h3>
+                <div class="fish-grid" id="fishGrid">
+                    <div class="fish-slot">🎣</div>
+                    <div class="fish-slot">?</div>
+                    <div class="fish-slot">?</div>
+                    <div class="fish-slot">?</div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Side Panel -->
-        <aside class="side-panel">
-            <!-- Fish Collection -->
-            <section class="fish-collection">
-                <h3>🐟 Fish Collection</h3>
-                <div class="collection-grid" id="collection-grid">
-                    <div class="collection-slot empty">
-                        <span class="slot-text">Cast your first line!</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Recent Catches -->
-            <section class="recent-catches">
-                <h3>🎯 Recent Catches</h3>
-                <ul class="catches-list" id="catches-list">
-                    <li class="empty-state">Your adventure begins here...</li>
-                </ul>
-            </section>
-
-            <!-- Fishing Stories -->
-            <section class="fishing-stories">
-                <h3>📖 Fishing Stories</h3>
-                <div class="story-container" id="story-container">
-                    <p class="empty-story">Your fishing stories will appear here as you explore the realms...</p>
-                </div>
-            </section>
-        </aside>
-    </main>
-
-    <!-- Instructions -->
-    <section class="instructions">
-        <h3>🎮 How to Play</h3>
-        <div class="instruction-grid">
-            <div class="instruction">
-                <strong>Desktop:</strong> Click and drag to cast. Arrow keys to move.
-            </div>
-            <div class="instruction">
-                <strong>Mobile:</strong> Touch and drag to cast. Swipe to move.
-            </div>
-            <div class="instruction">
-                <strong>Realms:</strong> Click realm buttons to teleport instantly.
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="game-footer">
-        <p>🌟 Discover rare fish, share your catches, explore infinite waters</p>
-        <div class="social-links">
-            <button class="share-btn" id="share-btn">📸 Share Catch</button>
-            <button class="story-btn" id="story-btn">📝 Generate Story</button>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script>
+        // Simple, guaranteed-to-work fishing game
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game state
+        let currentRealm = 'tropical';
+        let fishCount = 0;
+        let rareCount = 0;
+        let collection = new Set();
+        
+        // Player
+        let player = { x: 400, y: 60, width: 60, height: 30, speed: 4 };
+        
+        // Fishing line
+        let line = { 
+            active: false, 
+            casting: false, 
+            power: 0, 
+            x: 0, 
+            y: 0, 
+            targetX: 0, 
+            targetY: 0 
+        };
+        
+        // Fish array
+        let fish = [];
+        
+        // Input
+        let keys = { left: false, right: false };
+        let mouseDown = false;
+        
+        // Realm definitions
+        const realms = {
+            tropical: {
+                name: '🌴 Tropical Paradise',
+                colors: ['#87CEEB', '#20B2AA', '#008B8B', '#FF6B6B'],
+                fish: [
+                    { emoji: '🐠', name: 'Clownfish', rarity: 'common', points: 10 },
+                    { emoji: '🐟', name: 'Angelfish', rarity: 'uncommon', points: 25 },
+                    { emoji: '🐢', name: 'Sea Turtle', rarity: 'rare', points: 100 },
+                    { emoji: '🐬', name: 'Dolphin', rarity: 'legendary', points: 500 }
+                ]
+            },
+            arctic: {
+                name: '❄️ Arctic Wilderness',
+                colors: ['#E6F3FF', '#B8E6FF', '#7DD3FC', '#0EA5E9'],
+                fish: [
+                    { emoji: '🐟', name: 'Arctic Char', rarity: 'common', points: 15 },
+                    { emoji: '🐠', name: 'Ice Salmon', rarity: 'uncommon', points: 35 },
+                    { emoji: '🦭', name: 'Seal', rarity: 'rare', points: 150 },
+                    { emoji: '🦄', name: 'Narwhal', rarity: 'legendary', points: 750 }
+                ]
+            },
+            space: {
+                name: '🚀 Space Station',
+                colors: ['#0F0F23', '#1a1a2e', '#16213e', '#0f3460'],
+                fish: [
+                    { emoji: '✨', name: 'Nebula Guppy', rarity: 'common', points: 20 },
+                    { emoji: '⭐', name: 'Cosmic Goldfish', rarity: 'uncommon', points: 45 },
+                    { emoji: '🛸', name: 'Void Manta', rarity: 'rare', points: 200 },
+                    { emoji: '🌌', name: 'Galaxy Whale', rarity: 'legendary', points: 1000 }
+                ]
+            },
+            forest: {
+                name: '🧚 Mystical Forest',
+                colors: ['#228B22', '#32CD32', '#006400', '#2F4F2F'],
+                fish: [
+                    { emoji: '🧚', name: 'Fairy Tetra', rarity: 'common', points: 18 },
+                    { emoji: '🍃', name: 'Moss Bass', rarity: 'uncommon', points: 42 },
+                    { emoji: '🐉', name: 'Forest Dragon', rarity: 'rare', points: 250 },
+                    { emoji: '🔥', name: 'Phoenix Fish', rarity: 'legendary', points: 1200 }
+                ]
+            },
+            ocean: {
+                name: '🌊 Deep Ocean',
+                colors: ['#191970', '#000080', '#00008B', '#000000'],
+                fish: [
+                    { emoji: '💡', name: 'Lanternfish', rarity: 'common', points: 22 },
+                    { emoji: '🐍', name: 'Viper Fish', rarity: 'uncommon', points: 48 },
+                    { emoji: '🦑', name: 'Giant Squid', rarity: 'rare', points: 300 },
+                    { emoji: '🐙', name: 'Leviathan', rarity: 'legendary', points: 2000 }
+                ]
+            }
+        };
+        
+        // Get random fish for current realm
+        function getRandomFish() {
+            const realmFish = realms[currentRealm].fish;
+            const rand = Math.random();
+            let rarity;
+            
+            if (rand < 0.6) rarity = 'common';
+            else if (rand < 0.85) rarity = 'uncommon';
+            else if (rand < 0.98) rarity = 'rare';
+            else rarity = 'legendary';
+            
+            const fishOfRarity = realmFish.filter(f => f.rarity === rarity);
+            return fishOfRarity[Math.floor(Math.random() * fishOfRarity.length)];
+        }
+        
+        // Spawn fish
+        function spawnFish() {
+            if (Math.random() < 0.03) {
+                const fishType = getRandomFish();
+                fish.push({
+                    x: Math.random() > 0.5 ? -50 : canvas.width + 50,
+                    y: 150 + Math.random() * 200,
+                    speed: (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random() * 2),
+                    size: 20 + Math.random() * 15,
+                    type: fishType,
+                    swayOffset: Math.random() * Math.PI * 2
+                });
+            }
+        }
+        
+        // Draw background
+        function drawBackground() {
+            const colors = realms[currentRealm].colors;
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, colors[0]);
+            gradient.addColorStop(0.3, colors[1]);
+            gradient.addColorStop(0.6, colors[2]);
+            gradient.addColorStop(1, colors[3]);
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // Draw player
+        function drawPlayer() {
+            // Boat
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(player.x - player.width/2, player.y, player.width, player.height/2);
+            
+            // Fisher
+            ctx.fillStyle = '#FFE4B5';
+            ctx.fillRect(player.x - 10, player.y - 15, 20, 15);
+            
+            // Rod
+            ctx.strokeStyle = '#D2691E';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(player.x, player.y);
+            ctx.lineTo(player.x - 20, player.y - 30);
+            ctx.stroke();
+        }
+        
+        // Draw fishing line
+        function drawLine() {
+            if (line.active) {
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(player.x, player.y);
+                ctx.lineTo(line.x, line.y);
+                ctx.stroke();
+                
+                // Hook
+                ctx.fillStyle = '#C0C0C0';
+                ctx.beginPath();
+                ctx.arc(line.x, line.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Power indicator
+            if (line.casting) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(canvas.width/2 - 100, 50, 200, 20);
+                
+                ctx.fillStyle = line.power < 50 ? '#4CAF50' : line.power < 80 ? '#FFC107' : '#F44336';
+                ctx.fillRect(canvas.width/2 - 100, 50, (line.power / 100) * 200, 20);
+                
+                ctx.fillStyle = '#fff';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('POWER', canvas.width/2, 45);
+                ctx.textAlign = 'left';
+            }
+        }
+        
+        // Draw fish
+        function drawFish() {
+            fish.forEach((f, i) => {
+                // Natural swimming motion
+                f.swayOffset += 0.05;
+                f.y += Math.sin(f.swayOffset) * 0.3;
+                f.x += f.speed;
+                
+                // Draw fish emoji
+                ctx.font = f.size + 'px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(f.type.emoji, f.x, f.y);
+                
+                // Remove off-screen fish
+                if (f.x < -100 || f.x > canvas.width + 100) {
+                    fish.splice(i, 1);
+                }
+                
+                // Check collision with hook
+                if (line.active) {
+                    const dist = Math.sqrt((f.x - line.x) ** 2 + (f.y - line.y) ** 2);
+                    if (dist < f.size/2 + 10) {
+                        // Caught a fish!
+                        catchFish(f.type);
+                        fish.splice(i, 1);
+                        line.active = false;
+                    }
+                }
+            });
+            ctx.textAlign = 'left';
+        }
+        
+        // Catch fish
+        function catchFish(fishType) {
+            fishCount++;
+            if (fishType.rarity === 'rare' || fishType.rarity === 'legendary') {
+                rareCount++;
+            }
+            
+            collection.add(fishType.emoji);
+            updateUI();
+            
+            // Flash effect
+            ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // Update UI
+        function updateUI() {
+            document.getElementById('fishCount').textContent = fishCount;
+            document.getElementById('rareCount').textContent = rareCount;
+            document.getElementById('currentRealm').textContent = realms[currentRealm].name;
+            
+            // Update collection grid
+            const grid = document.getElementById('fishGrid');
+            grid.innerHTML = '';
+            
+            const allEmojis = Array.from(collection);
+            for (let i = 0; i < 8; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'fish-slot';
+                if (allEmojis[i]) {
+                    slot.className += ' filled';
+                    slot.textContent = allEmojis[i];
+                } else {
+                    slot.textContent = '?';
+                }
+                grid.appendChild(slot);
+            }
+        }
+        
+        // Game loop
+        function gameLoop() {
+            // Update
+            if (keys.left && player.x > player.width/2) {
+                player.x -= player.speed;
+            }
+            if (keys.right && player.x < canvas.width - player.width/2) {
+                player.x += player.speed;
+            }
+            
+            if (line.casting) {
+                line.power = Math.min(line.power + 1.5, 100);
+            }
+            
+            spawnFish();
+            
+            // Draw
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawFish();
+            drawPlayer();
+            drawLine();
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Event listeners
+        canvas.addEventListener('mousedown', (e) => {
+            if (!line.active) {
+                const rect = canvas.getBoundingClientRect();
+                line.targetX = e.clientX - rect.left;
+                line.targetY = e.clientY - rect.top;
+                line.casting = true;
+                line.power = 0;
+                mouseDown = true;
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            if (line.casting && mouseDown) {
+                // Cast line
+                const distance = (line.power / 100) * 300 + 50;
+                const angle = Math.atan2(line.targetY - player.y, line.targetX - player.x);
+                
+                line.x = player.x + Math.cos(angle) * distance;
+                line.y = player.y + Math.sin(angle) * distance;
+                line.active = true;
+                line.casting = false;
+                mouseDown = false;
+                
+                // Auto-reel after 3 seconds
+                setTimeout(() => {
+                    line.active = false;
+                }, 3000);
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+        });
+        
+        // Realm switching
+        document.querySelectorAll('.realm-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.realm-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentRealm = btn.dataset.realm;
+                fish = []; // Clear fish when switching realms
+                updateUI();
+            });
+        });
+        
+        // Start game
+        updateUI();
+        gameLoop();
+    </script>
 </body>
 </html>
