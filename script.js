@@ -284,9 +284,6 @@ function switchRealm(newRealm) {
     currentRealmName.textContent = realmData.name;
     currentRealmIcon.textContent = realmData.icon;
     
-    // Update canvas background
-    canvas.className = realmData.background;
-    
     // Update active button
     realmButtons.forEach(btn => btn.classList.remove('active'));
     document.querySelector(`[data-realm="${newRealm}"]`).classList.add('active');
@@ -438,6 +435,26 @@ function checkCollision() {
 // =====================================
 // DRAWING FUNCTIONS
 // =====================================
+
+function drawRealmBackground() {
+    const realmColors = {
+        tropical: ['#87CEEB', '#20B2AA', '#008B8B', '#FF6B6B'],
+        arctic: ['#E6F3FF', '#B8E6FF', '#7DD3FC', '#0EA5E9'],
+        space: ['#0F0F23', '#1a1a2e', '#16213e', '#0f3460'],
+        forest: ['#228B22', '#32CD32', '#006400', '#2F4F2F'],
+        ocean: ['#191970', '#000080', '#00008B', '#000000']
+    };
+    
+    const colors = realmColors[currentRealm];
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(0.3, colors[1]);
+    gradient.addColorStop(0.6, colors[2]);
+    gradient.addColorStop(1, colors[3]);
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
 
 function drawPlayer() {
     // Draw simple boat/fisher
@@ -680,9 +697,8 @@ function drawGame() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Test drawing - simple background elements
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.fillRect(50, 50, canvas.width - 100, canvas.height - 100);
+    // Draw realm background
+    drawRealmBackground();
     
     // Draw game elements
     drawFish();
@@ -691,10 +707,15 @@ function drawGame() {
     drawHookedFish();
     
     // Draw debug info
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = '#fff';
     ctx.font = '12px Arial';
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.strokeText(`Canvas: ${canvas.width}x${canvas.height}`, 10, 20);
     ctx.fillText(`Canvas: ${canvas.width}x${canvas.height}`, 10, 20);
+    ctx.strokeText(`Player: ${Math.round(player.x)}, ${player.y}`, 10, 35);
     ctx.fillText(`Player: ${Math.round(player.x)}, ${player.y}`, 10, 35);
+    ctx.strokeText(`Fish: ${fish.length}`, 10, 50);
     ctx.fillText(`Fish: ${fish.length}`, 10, 50);
 }
 

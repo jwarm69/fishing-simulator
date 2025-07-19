@@ -110,32 +110,13 @@ body {
 
 #game-canvas {
     display: block;
-    width: 100%;
+    max-width: 100%;
     height: auto;
-    background: linear-gradient(180deg, #87CEEB 0%, #20B2AA 30%, #008B8B  60%, #006400 100%);
-    transition: background 0.5s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
 }
 
-/* Canvas Realm Backgrounds */
-#game-canvas.tropical {
-    background: linear-gradient(180deg, #87CEEB 0%, #20B2AA 30%, #008B8B 60%, #FF6B6B 100%);
-}
-
-#game-canvas.arctic {
-    background: linear-gradient(180deg, #E6F3FF 0%, #B8E6FF 30%, #7DD3FC 60%, #0EA5E9 100%);
-}
-
-#game-canvas.space {
-    background: linear-gradient(180deg, #0F0F23 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
-}
-
-#game-canvas.forest {
-    background: linear-gradient(180deg, #228B22 0%, #32CD32 30%, #006400 60%, #2F4F2F 100%);
-}
-
-#game-canvas.ocean {
-    background: linear-gradient(180deg, #191970 0%, #000080 30%, #00008B 60%, #000000 100%);
-}
+/* Canvas backgrounds now drawn by JavaScript instead of CSS */
 
 /* Game Overlay UI */
 .game-overlay {
