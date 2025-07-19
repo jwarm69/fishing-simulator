@@ -31,7 +31,7 @@ let gameStats = {
 };
 
 let player = {
-    x: canvas.width / 2,
+    x: 500, // Will be set properly in initGame
     y: 80,
     width: 60,
     height: 40,
@@ -455,6 +455,11 @@ function drawPlayer() {
     ctx.moveTo(player.x + player.width/2, player.y);
     ctx.lineTo(player.x + player.width/2 - 10, player.y - 30);
     ctx.stroke();
+    
+    // Draw simple text to verify rendering
+    ctx.fillStyle = '#000';
+    ctx.font = '16px Arial';
+    ctx.fillText('🎣', player.x + player.width/2 - 8, player.y - 35);
 }
 
 function drawFishingLine() {
@@ -675,11 +680,22 @@ function drawGame() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    // Test drawing - simple background elements
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.fillRect(50, 50, canvas.width - 100, canvas.height - 100);
+    
     // Draw game elements
     drawFish();
     drawPlayer();
     drawFishingLine();
     drawHookedFish();
+    
+    // Draw debug info
+    ctx.fillStyle = '#000';
+    ctx.font = '12px Arial';
+    ctx.fillText(`Canvas: ${canvas.width}x${canvas.height}`, 10, 20);
+    ctx.fillText(`Player: ${Math.round(player.x)}, ${player.y}`, 10, 35);
+    ctx.fillText(`Fish: ${fish.length}`, 10, 50);
 }
 
 function gameLoop() {
@@ -697,12 +713,23 @@ function initGame() {
     canvas.width = 1000;
     canvas.height = 600;
     
+    // Set player position after canvas is sized
+    player.x = canvas.width / 2 - player.width / 2;
+    
     // Initialize UI
     updateUI();
     switchRealm('tropical');
     
     // Start game loop
     gameLoop();
+    
+    // Debug log
+    console.log('Game initialized:', {
+        canvasWidth: canvas.width,
+        canvasHeight: canvas.height,
+        playerX: player.x,
+        playerY: player.y
+    });
 }
 
 // Start the game when page loads
