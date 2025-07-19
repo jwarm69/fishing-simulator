@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Waters - Ultimate Fishing Simulator</title>
+    <meta name="description" content="The ultimate browser fishing simulator with 5 mystical realms. Simple, beautiful, infinite.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="game-header">
+        <h1 class="game-title">🎣 Endless Waters</h1>
+        <p class="game-subtitle">Cast your line across infinite realms</p>
+    </header>
+
+    <!-- Realm Selector -->
+    <nav class="realm-selector">
+        <button class="realm-btn active" data-realm="tropical">
+            <span class="realm-icon">🌴</span>
+            <span class="realm-name">Tropical Paradise</span>
+        </button>
+        <button class="realm-btn" data-realm="arctic">
+            <span class="realm-icon">❄️</span>
+            <span class="realm-name">Arctic Wilderness</span>
+        </button>
+        <button class="realm-btn" data-realm="space">
+            <span class="realm-icon">🚀</span>
+            <span class="realm-name">Space Station</span>
+        </button>
+        <button class="realm-btn" data-realm="forest">
+            <span class="realm-icon">🧚</span>
+            <span class="realm-name">Mystical Forest</span>
+        </button>
+        <button class="realm-btn" data-realm="ocean">
+            <span class="realm-icon">🌊</span>
+            <span class="realm-name">Deep Ocean</span>
+        </button>
+    </nav>
+
+    <!-- Main Game Area -->
+    <main class="game-main">
+        <!-- Game Canvas Container -->
+        <div class="game-container">
+            <canvas id="game-canvas" width="1000" height="600"></canvas>
+            
+            <!-- Game Overlay UI -->
+            <div class="game-overlay">
+                <div class="hud-top">
+                    <div class="current-realm">
+                        <span id="current-realm-name">Tropical Paradise</span>
+                        <span id="current-realm-icon">🌴</span>
+                    </div>
+                    <div class="game-stats">
+                        <div class="stat">
+                            <span class="stat-label">Fish Caught</span>
+                            <span class="stat-value" id="fish-count">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Rare Catches</span>
+                            <span class="stat-value" id="rare-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Casting Power Indicator -->
+                <div class="casting-ui" id="casting-ui" style="display: none;">
+                    <div class="power-meter">
+                        <div class="power-bar" id="power-bar"></div>
+                    </div>
+                    <p class="casting-instruction">Hold to build power, release to cast!</p>
+                </div>
+
+                <!-- Fish Bite Indicator -->
+                <div class="bite-indicator" id="bite-indicator" style="display: none;">
+                    <div class="bite-animation">🎣</div>
+                    <p class="bite-text">Fish on the line! Click to hook!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Side Panel -->
+        <aside class="side-panel">
+            <!-- Fish Collection -->
+            <section class="fish-collection">
+                <h3>🐟 Fish Collection</h3>
+                <div class="collection-grid" id="collection-grid">
+                    <div class="collection-slot empty">
+                        <span class="slot-text">Cast your first line!</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Catches -->
+            <section class="recent-catches">
+                <h3>🎯 Recent Catches</h3>
+                <ul class="catches-list" id="catches-list">
+                    <li class="empty-state">Your adventure begins here...</li>
+                </ul>
+            </section>
+
+            <!-- Fishing Stories -->
+            <section class="fishing-stories">
+                <h3>📖 Fishing Stories</h3>
+                <div class="story-container" id="story-container">
+                    <p class="empty-story">Your fishing stories will appear here as you explore the realms...</p>
+                </div>
+            </section>
+        </aside>
+    </main>
+
+    <!-- Instructions -->
+    <section class="instructions">
+        <h3>🎮 How to Play</h3>
+        <div class="instruction-grid">
+            <div class="instruction">
+                <strong>Desktop:</strong> Click and drag to cast. Arrow keys to move.
+            </div>
+            <div class="instruction">
+                <strong>Mobile:</strong> Touch and drag to cast. Swipe to move.
+            </div>
+            <div class="instruction">
+                <strong>Realms:</strong> Click realm buttons to teleport instantly.
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="game-footer">
+        <p>🌟 Discover rare fish, share your catches, explore infinite waters</p>
+        <div class="social-links">
+            <button class="share-btn" id="share-btn">📸 Share Catch</button>
+            <button class="story-btn" id="story-btn">📝 Generate Story</button>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
